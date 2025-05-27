@@ -8,3 +8,29 @@
     width: 400px;
     height: 300px;
 }
+
+.stock-chart {
+    min-height: 200px;
+    max-height: 200px;
+    width: 100%;
+}
+
+.stock-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input-section {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+}

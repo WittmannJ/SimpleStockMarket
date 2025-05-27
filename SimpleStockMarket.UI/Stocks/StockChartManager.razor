@@ -1,0 +1,56 @@
+@using Microsoft.JSInterop
+@using System.Net.Http.Json
+
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<div class="stock-chart-container">
+    <div class="input-section">
+        <input @bind="newSymbol" placeholder="Enter stock symbol..." />
+        <button @onclick="AddStockChart">Add</button>
+    </div>
+
+    <div class="grid">
+        @foreach (var stock in stockResponses)
+        {
+            <StockChartComponent StockData="@stock" />
+        }
+    </div>
+</div>
+
+
+@code {
+    private string newSymbol = "";
+    private List<StockPriceResponse> stockResponses = new();
+
+    private async Task AddStockChart()
+    {
+        if (!string.IsNullOrWhiteSpace(newSymbol))
+        {
+            // Simulate fetching stock data (Replace with actual API call)
+            var stockData = await FetchStockDataAsync(newSymbol);
+            if (stockData != null)
+            {
+                stockResponses.Add(stockData);
+                newSymbol = ""; // Reset input
+            }
+        }
+    }
+
+    private async Task<StockPriceResponse?> FetchStockDataAsync(string symbol)
+    {
+        try
+        {
+            string baseUrl = "https://localhost:32771"; // Replace with actual base URL
+            string apiUrl = $"{baseUrl}/api/stocks?symbol={symbol}&numberOfDays=30";
+            
+            StockPriceResponse? response = await Http.GetFromJsonAsync<StockPriceResponse>(apiUrl);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching stock data: {ex.Message}");
+            return null;
+        }
+    }
+}

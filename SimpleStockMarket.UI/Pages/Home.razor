@@ -1,6 +1,19 @@
 ﻿@page "/"
 
+<StockChartManager />
 
 
 
-<SimpleStockMarket.UI.Stocks.StockChartMainContainer/>
+@* <StockChartComponent StockData="@stockResponse" />
+
+
+@* <SimpleStockMarket.UI.Stocks.StockChartMainContainer/> *@
+
+@* @code {
+    private StockPriceResponse stockResponse = new StockPriceResponse("AAPL", new List<StockEntry>
+    {
+        new StockEntry(DateTime.UtcNow.AddDays(-3), 140, 145, 139, 144, 50000),
+        new StockEntry(DateTime.UtcNow.AddDays(-2), 144, 146, 142, 145, 52000),
+        new StockEntry(DateTime.UtcNow.AddDays(-1), 145, 148, 144, 147, 53000)
+    });
+}  *@

@@ -8,7 +8,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp",
+        policy => policy.WithOrigins("http://localhost:5173") // Your Blazor app URL
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<StocksClient>(httpClient =>
 {
@@ -26,7 +32,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowBlazorApp"); // Apply CORS policy
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 
