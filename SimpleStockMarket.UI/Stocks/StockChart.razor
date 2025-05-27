@@ -1,0 +1,35 @@
+﻿@inject HttpClient Http
+@inject IJSRuntime JS
+
+@code {
+    [Parameter]
+    public string Symbol { get; set; }
+
+    private StockPriceResponse stockData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        stockData = await Http.GetFromJsonAsync<StockPriceResponse>($"https://localhost:32769/api/stocks?symbol={Symbol}");
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && stockData != null)
+        {
+            var chartData = new
+            {
+                labels = stockData.Prices.Select(p => p.Date.ToShortDateString()).ToList(),
+                data = stockData.Prices.Select(p => p.Close).ToList(),
+                symbol = stockData.Symbol
+            };
+
+            await JS.InvokeVoidAsync("StockChart.createChart", "stockChart", chartData);
+        }
+    }
+}
+
+@if (stockData != null)
+{
+    <canvas id="stockChart"></canvas>
+}

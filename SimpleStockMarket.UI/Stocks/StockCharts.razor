@@ -1,0 +1,30 @@
+﻿@inject IJSRuntime JSRuntime
+
+<button @onclick="AddChart">➕ Add Chart</button>
+
+<div class="chart-grid">
+    @foreach (var chartId in ChartIds)
+    {
+        <div id="@chartId" class="chart-container">
+            <canvas id="@($"{chartId}-canvas")"></canvas>
+        </div>
+    }
+</div>
+
+@code {
+    private List<string> ChartIds = new List<string>();
+
+    private void AddChart()
+    {
+        var newId = $"chart-{ChartIds.Count}";
+        ChartIds.Add(newId);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        foreach (var id in ChartIds)
+        {
+            await JSRuntime.InvokeVoidAsync("createStockChart", $"{id}-canvas");
+        }
+    }
+}

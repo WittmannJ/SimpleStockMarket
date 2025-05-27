@@ -1,0 +1,16 @@
+﻿
+<StockInput OnStockAdded="HandleStockAdded" />
+
+@foreach (var symbol in stockSymbols)
+{
+    <StockChart Symbol="@symbol" />
+}
+
+@code {
+    private List<string> stockSymbols = new List<string>();
+
+    private void HandleStockAdded(string symbol)
+    {
+        stockSymbols.Add(symbol);
+    }
+}

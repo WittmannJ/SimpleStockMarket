@@ -1,0 +1,18 @@
+﻿<div>
+    <input @bind="stockSymbol" placeholder="Enter stock symbol" />
+    <button @onclick="AddStockComponent">Add Stock Data</button>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnStockAdded { get; set; }
+
+    private string stockSymbol = "";
+
+    private async Task AddStockComponent()
+    {
+        await OnStockAdded.InvokeAsync(stockSymbol);
+        stockSymbol = "";
+    }
+}
+
