@@ -41,7 +41,7 @@
     {
         try
         {
-            string baseUrl = "http://localhost:5000"; // Replace with actual base URL
+            string baseUrl = "http://192.168.2.51:5000"; // Replace with actual base URL
             string apiUrl = $"{baseUrl}/api/stocks?symbol={symbol}&numberOfDays=30";
             
             StockPriceResponse? response = await Http.GetFromJsonAsync<StockPriceResponse>(apiUrl);
