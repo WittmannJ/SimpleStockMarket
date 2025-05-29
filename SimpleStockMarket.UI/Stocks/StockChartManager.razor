@@ -68,10 +68,12 @@
             if (stockData != null)
             {
                 stockResponses.Add(stockData);
+                stockSymbols.Add(newSymbol);
 
                 // Store updated list in local storage
                 await JS.InvokeVoidAsync("localStorage.setItem", "stockSymbols", 
                     System.Text.Json.JsonSerializer.Serialize(stockSymbols));
+                Console.WriteLine($"Added {newSymbol} to list of tracked symbols");
                 
                 newSymbol = ""; // Reset input
             }
