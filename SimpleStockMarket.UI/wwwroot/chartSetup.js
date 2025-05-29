@@ -9,7 +9,8 @@ function renderStockChart(chartId, labels, prices, symbol) {
                 data: prices,
                 borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
+                fill: true,
+                pointRadius: 0 // Removes the small circles on each data point
             }]
         },
         options: {
