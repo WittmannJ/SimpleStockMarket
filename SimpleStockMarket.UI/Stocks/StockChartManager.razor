@@ -45,6 +45,11 @@
             string apiUrl = $"{baseUrl}/api/stocks?symbol={symbol}&numberOfDays=365";
             
             StockPriceResponse? response = await Http.GetFromJsonAsync<StockPriceResponse>(apiUrl);
+            
+            if (response != null){
+                response = response with { Prices = response.Prices.AsEnumerable().Reverse().ToList()};
+            }
+            
             return response;
         }
         catch (Exception ex)
