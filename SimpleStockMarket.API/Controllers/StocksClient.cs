@@ -18,7 +18,7 @@ namespace SimpleStockMarket.API.Controllers
 
             StockPriceResponse? stockPriceResponse = await memoryCache.GetOrCreateAsync($"stocks-{symbol}", async entry =>
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(24*60)); // only try to re-new stock data after 24 hours
 
                 return await GetStockPrice(symbol);
             });
