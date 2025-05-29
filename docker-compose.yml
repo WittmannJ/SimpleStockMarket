@@ -6,7 +6,7 @@ services:
       context: ./SimpleStockMarket.API
       dockerfile: Dockerfile.Deploy
     ports:
-      - "5000:8081"
+      - "5000:8080"
     networks:
       - dashboard-network
 

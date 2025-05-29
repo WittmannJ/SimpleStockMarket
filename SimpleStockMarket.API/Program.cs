@@ -36,7 +36,7 @@ app.UseCors("AllowBlazorApp"); // Apply CORS policy
 
 // if (!app.Environment.IsDevelopment())
 // {
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 // }
 
 app.UseAuthorization();
