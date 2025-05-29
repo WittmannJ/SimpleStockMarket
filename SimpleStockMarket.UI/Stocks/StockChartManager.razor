@@ -13,7 +13,7 @@
     <div class="grid">
         @foreach (var stock in stockResponses)
         {
-            <StockChartComponent StockData="@stock" />
+            <StockChartComponent StockData="@stock" OnDelete="RemoveStockChart" />
         }
     </div>
 </div>
@@ -22,6 +22,42 @@
 @code {
     private string newSymbol = "";
     private List<StockPriceResponse> stockResponses = new();
+    private List<string> stockSymbols = new();
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStoredSymbols();
+    }
+
+    private async Task RemoveStockChart(string symbol)
+    {
+        stockResponses.RemoveAll(s => s.Symbol == symbol);
+        stockSymbols.Remove(symbol);
+
+        // Update local storage
+        await JS.InvokeVoidAsync("localStorage.setItem", "stockSymbols", 
+            System.Text.Json.JsonSerializer.Serialize(stockSymbols));
+    }
+
+    private async Task LoadStoredSymbols()
+    {
+        var storedSymbols = await JS.InvokeAsync<string>("localStorage.getItem", "stockSymbols");
+
+        if (!string.IsNullOrEmpty(storedSymbols))
+        {
+            stockSymbols = System.Text.Json.JsonSerializer.Deserialize<List<string>>(storedSymbols) ?? new List<string>();
+
+            foreach (var symbol in stockSymbols)
+            {
+                var stockData = await FetchStockDataAsync(symbol);
+                if (stockData != null)
+                {
+                    stockResponses.Add(stockData);
+                }
+            }
+        }
+    }
 
     private async Task AddStockChart()
     {
@@ -32,6 +68,11 @@
             if (stockData != null)
             {
                 stockResponses.Add(stockData);
+
+                // Store updated list in local storage
+                await JS.InvokeVoidAsync("localStorage.setItem", "stockSymbols", 
+                    System.Text.Json.JsonSerializer.Serialize(stockSymbols));
+                
                 newSymbol = ""; // Reset input
             }
         }
