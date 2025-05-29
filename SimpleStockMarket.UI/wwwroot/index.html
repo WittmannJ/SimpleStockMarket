@@ -27,6 +27,14 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script>
+        window.destroyStockChart = (chartId) => {
+        let chart = Chart.getChart(chartId); // Retrieve existing Chart.js instance
+        if (chart) {
+            chart.destroy();
+        }
+    };
+    </script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="chart.js"></script>

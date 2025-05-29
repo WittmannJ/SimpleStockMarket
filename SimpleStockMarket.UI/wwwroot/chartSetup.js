@@ -19,9 +19,4 @@ function renderStockChart(chartId, labels, prices, symbol) {
     });
 }
 
-window.destroyStockChart = (chartId) => {
-    let chart = Chart.getChart(chartId); // Retrieve existing Chart.js instance
-    if (chart) {
-        chart.destroy();
-    }
-};
+
