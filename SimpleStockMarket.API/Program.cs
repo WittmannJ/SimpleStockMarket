@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorApp",
-        policy => policy.WithOrigins("http://192.168.2.51:5001", "http://192.168.2.51:5001", "https://cool.devcontainer.de") // Your Blazor app URL
+        policy => policy.WithOrigins("http://192.168.2.51:5001", "http://192.168.2.51:5001", "https://cool.devcontainer.de","https://192.168.2.51:5001") // Your Blazor app URL
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
@@ -34,10 +34,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowBlazorApp"); // Apply CORS policy
 
-// if (!app.Environment.IsDevelopment())
-// {
-//     app.UseHttpsRedirection();
-// }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 
